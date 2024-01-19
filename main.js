@@ -162,10 +162,11 @@ async function renderRepoGrid(username, pageSize=10, repos=null) {
 
 document.onreadystatechange = (e) => {
     if (document.readyState !== 'complete') return;
-    let ghUsername = window.location.pathname.split('/')[1]
+    let ghUsername = new URLSearchParams(window.location.href.split('/').at(-1)).get('u')
+    console.log(window.location.href)
     if (!ghUsername) {
         alert("No username provided, enter username as path parameter, `/:username` redirecting to default username")
-        window.location = '/aqueelahmedv'
+        window.location = '/?u=aqueelahmedv'
     }
     initializePage(ghUsername)
     renderRepoGrid(ghUsername)
