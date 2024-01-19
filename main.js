@@ -1,10 +1,9 @@
 import './style.css'
 
-import { GH_ACCESS_TOKEN } from "./secrets.js";
 import { Octokit } from "octokit";
 
 const ghApi = new Octokit({
-    auth: GH_ACCESS_TOKEN
+    auth: import.meta.env.VITE_GH_ACCESS_TOKEN
 })
 
 function setLoading(loading) {
