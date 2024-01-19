@@ -82,7 +82,7 @@ async function renderUserRepos(username, page=1, perPage=10, repos=null) {
 
 function setAvatarSrc(imageUrl) {
     document.getElementById('imgSpinner')?.remove()
-    if (document.getElementById('avatarImg')) return;
+    document.getElementById('avatarImg')?.remove()
     let avatarImgEl = document.createElement('img')
     avatarImgEl.id = 'avatarImg'
     avatarImgEl.classList.add('image-fluid')
@@ -162,13 +162,20 @@ async function renderRepoGrid(username, pageSize=10, repos=null) {
 
 document.onreadystatechange = (e) => {
     if (document.readyState !== 'complete') return;
-    let ghUsername = new URLSearchParams(window.location.href.split('/').at(-1)).get('u')
-    console.log(window.location.href)
-    if (!ghUsername) {
-        alert("No username provided, enter username as path parameter, `/:username` redirecting to default username")
-        window.location = '/?u=aqueelahmedv'
-    }
+    document.getElementById('changeUsernameLink').addEventListener('click', () => {
+        getUsernameAndRender(true)
+    })
+    getUsernameAndRender()
+}
+
+function getUsernameAndRender(change=false) {
+
+    let ghUsername;
+    if (!change)
+        ghUsername = localStorage.getItem('fyleGhUsername')
+    if (!ghUsername) ghUsername = prompt("Enter github username:")
+    if (!ghUsername) ghUsername = 'aqueelahmedv'
+    localStorage.setItem('fyleGhUsername', ghUsername)
     initializePage(ghUsername)
     renderRepoGrid(ghUsername)
-    
 }

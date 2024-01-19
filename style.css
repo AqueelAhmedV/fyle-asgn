@@ -42,3 +42,8 @@
   left: 46%;
   
 }
+
+.pagination {
+  max-width: 70vw;
+  overflow: auto;
+}
