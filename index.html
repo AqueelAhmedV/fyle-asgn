@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Profile</title>
+    <link href="./libs/bootstrap-5.3.2-dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script type="module" src="./main.js"></script>
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+      <div class="container d-flex">
+        <div class="container justify-content-center d-flex flex-column align-items-center">
+        <div class="avatar mx-auto" id="avatarContainer">
+          <div class="spinner-border" id="imgSpinner" role="status">
+           
+          </div>
+        </div>
+        </div>
+        <div class="container" >
+          <h2 class="mt-3" id="username">Loading...</h2>
+          <span id="userDetails"></span>
+        </div>
+    </div>
+        <div class="mt-5">
+          <div class="header d-flex justify-content-between">
+          <h3 id="repoH3">Your Repositories</h3>
+          <div class="input-group mb-3 ">
+            <input id="searchInput" type="text" class="form-control custom-input" placeholder="Search..." aria-label="Search" aria-describedby="searchButton">
+          </div>
+          </div>
+          <div class="container position-relative">
+            <div class="overlay hide" id="loadingOverlay">
+              <div class="spinner-border text-primary" role="status">
+              </div>
+            </div>
+          <div class="row row-cols-1 row-cols-md-3 g-4" id="repoGrid">
+
+          </div>
+          </div>
+          <nav class="mt-4 d-flex justify-content-around">
+            <ul class="pagination justify-content-center">
+            </ul>
+            <div class="dropdown ">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="itemsPerPageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+               10 items per page
+              </button>
+              <ul class="dropdown-menu" id="perPageSelect" aria-labelledby="itemsPerPageDropdown">
+                <li><button class="dropdown-item">5</button></li>
+                <li><button class="dropdown-item">10</button></li>
+                <li><button class="dropdown-item">25</button></li>
+                <li><button class="dropdown-item">50</button></li>
+                <li><button class="dropdown-item">100</button></li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+      
+    <script src="./libs/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

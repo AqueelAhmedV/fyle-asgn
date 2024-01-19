@@ -1,0 +1,11 @@
+{
+    "routes": [
+      {
+        "src": "/profile",
+        "dest": "/index.html",
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        }
+      }
+    ]
+  }
