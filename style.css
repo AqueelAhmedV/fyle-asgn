@@ -47,3 +47,21 @@
   max-width: 70vw;
   overflow: auto;
 }
+
+#perPageSelect {
+  position: absolute;
+  background-color: aliceblue;
+  text-align: center;
+  justify-content: center;
+  top: -10%;
+  transform: translateY(-100%);
+  width: 100%;
+  z-index: 9999;
+  flex-direction: column-reverse;
+  border-radius: 4px;
+}
+
+#perPageSelect > button {
+  padding: 5px 2px;
+  margin: 5px 0;
+}

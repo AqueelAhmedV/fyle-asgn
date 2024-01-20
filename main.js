@@ -8,7 +8,6 @@ const ghApi = new Octokit({
 
 function setLoading(loading) {
     let loadingEl = document.getElementById('loadingOverlay')
-    let gridEl = document.getElementById('repoGrid')
     if (loading) {
         loadingEl.classList.remove('hide')
         // gridEl.classList.add('hide')
@@ -100,8 +99,15 @@ function renderUserData(userData) {
 
 function initializePage(username) {
   document.getElementById('username').innerText = username
+  let pageList = document.getElementById('perPageSelect')
+  document.getElementById('itemsPerPageDropdown').addEventListener('click', (e) => {
+    pageList.classList.toggle('hide')
+    console.log("CLCICLCLCLC")
+  })
   document.querySelectorAll('.dropdown-item')
     .forEach((el) => el.addEventListener('click', (e) => {
+        pageList.classList.add('hide')
+        console.log("CLICK")
         renderRepoGrid(username, parseInt(e.target.innerHTML))
     }))
   document.getElementById('searchInput').addEventListener('keydown', (e) => {
