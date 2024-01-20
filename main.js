@@ -41,8 +41,9 @@ function renderRepos(repos) {
 }
 
 
-async function renderSearchResults(searchStr, username, page=1, perPage=10) {
+async function renderSearchResults(username, page=1, perPage=10) {
     setLoading(true)
+    let searchStr = document.getElementById('searchInput').value
     return ghApi.rest.search
     .repos({
       q: `in:name ${searchStr} user:${username} `,
@@ -50,7 +51,9 @@ async function renderSearchResults(searchStr, username, page=1, perPage=10) {
       per_page: perPage
     })
     .then((res) => {
-      renderRepoGrid(username, perPage, res.data.items)
+    if (!window.searchMode)
+      renderRepoGrid(username, perPage, res.data)
+    else renderRepos(res.data.items)
       setLoading(false)
       // Process the search results as needed
     })
@@ -58,14 +61,14 @@ async function renderSearchResults(searchStr, username, page=1, perPage=10) {
 }
 
 
-async function renderUserRepos(username, page=1, perPage=10, repos=null) {
-    setLoading(true)
-    if (repos) {
-        renderRepos(repos)
-        setLoading(false)
+async function renderUserRepos(username, page=1, perPage=10, searchResults=null) {
+    if (searchResults) {
+        window.searchMode = true
+        renderRepos(searchResults.items)
         return;
     }
-    else return ghApi.rest.repos.listForUser({
+    setLoading(true)
+    return ghApi.rest.repos.listForUser({
         username,
         per_page: perPage,
         page
@@ -113,17 +116,17 @@ function initializePage(username) {
   document.getElementById('searchInput').addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
     if (!e.target.value) window.location.reload()
-    renderSearchResults(e.target.value, username)
+    renderSearchResults(username)
   })
 }
 
-async function renderRepoGrid(username, pageSize=10, repos=null) {
+async function renderRepoGrid(username, pageSize=10, searchResults=null) {
     document.getElementById('itemsPerPageDropdown').innerHTML = `<b>${pageSize}</b> items/page`
      const { data: userData } = await ghApi.rest.users.getByUsername({
         username,
       });
-      console.log(repos)
-      const totalRepos = repos? repos.length:userData.public_repos;
+      console.log(searchResults)
+      const totalRepos = searchResults? searchResults.total_count:userData.public_repos;
 
       setAvatarSrc(userData.avatar_url)
       renderUserData(userData)
@@ -156,12 +159,14 @@ async function renderRepoGrid(username, pageSize=10, repos=null) {
 
       function handlePageClick(page) {
         console.log('Page clicked:', page);
-
-        renderUserRepos(username, page, pageSize, repos)
+        
+        if (window.searchMode) 
+        renderSearchResults(username, page, pageSize)
+        else renderUserRepos(username, page, pageSize, searchResults)
        
         generatePaginationLinks(page);
       }
-      
+      if (!window.searchMode)
       handlePageClick(1);
 }
 
